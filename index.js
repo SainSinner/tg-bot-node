@@ -59,18 +59,13 @@ app.post('/web-data', async (req, res) => {
             type: 'article',
             id: queryId,
             title: 'Успешная покупка',
-            input_message_content: {message_text: 'Поздравлю с покупкой, вы приобрели товаров на сумм ' + totalPrice,
-            message_text: 'Список покупок: ' + products}
+            input_message_content: {
+                message_text: ` Поздравляю с покупкой, вы приобрели товар на сумму ${totalPrice}, ${products.map(item => item.title).join(', ')}`
+            }
         })
-    return res.status(200).json({});    
+        return res.status(200).json({});    
     } catch (e) {
-        await bot.answerWebAppQuery(queryId, {
-            type: 'article',
-            id: queryId,
-            title: 'Не удалось совершить покупку',
-            input_message_content: {message_text: 'Не удалось совершить покупку'}
-        })
-        return res.status(500).send   
+        return res.status(500).json({});  
     }
 })
 
